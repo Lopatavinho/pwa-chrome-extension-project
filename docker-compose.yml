@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api  # Usa o Dockerfile em ./api
+    ports:
+      - "3000:3000"  # Mapeia a porta 3000 do host para a 3000 do container
+    volumes:
+      - ./api:/usr/src/app  # Monta o volume para desenvolvimento (opcional, mas útil)
+      - /usr/src/app/node_modules # Garante que node_modules não seja sobrescrito pelo volume
+    environment:
+      - NODE_ENV=development
+    restart: always
+
+  web:
+    build:
+      context: ./web  # Usa o Dockerfile em ./web
+    ports:
+      - "8080:80"  # Mapeia a porta 8080 do host para a 80 (Nginx) do container
+    volumes:
+      - ./web:/usr/share/nginx/html # Monta o volume para desenvolvimento
+    restart: always
